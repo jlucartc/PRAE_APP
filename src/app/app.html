@@ -1,1 +1,11 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu #menu [content]="content" [persistent]="true">
+  <ion-content>
+    <ion-list inset>
+      <button ion-button block (click)="categorias()">Categorias</button>
+      <button ion-button block (click)="mapa()">Mapa</button>
+      <button ion-button block (click)="formularios()">Formulários</button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #content [root]="rootPage"></ion-nav>
