@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
-import { RequestOptions, Headers } from '@angular/http';
 /**
  * Generated class for the VerCategoriaPage page.
  *
@@ -16,6 +15,8 @@ import { RequestOptions, Headers } from '@angular/http';
 })
 export class VerCategoriaPage {
 
+  private url = "http://localhost:8080/app/ws/categoria/"+this.navParams.get('id');
+
   private categoriaNome;
 
   private descricoes;
@@ -27,7 +28,11 @@ export class VerCategoriaPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VerCategoriaPage');
+    this.carregarDados();
 
+  }
+
+  carregarDados(){
 
     var headers = {
       "Access-Control-Allow-Origin":"*",
@@ -36,7 +41,8 @@ export class VerCategoriaPage {
       "content-type":"application/json"
     };
 
-    this.http.get("http://localhost:8080/listaCategoriasAppWS",{},headers).then(data => { let alert = this.alertCtrl.create({title : "Sucesso", subTitle: data.url, buttons: ["Ok"]}); alert.present(); }).catch(error => { let alert = this.alertCtrl.create({title : "Erro", subTitle: "", buttons: ["Ok"]}); alert.present(); console.log(error)});
+    this.http.get(this.url,{},headers).then(data => { console.log(JSON.parse(data.data)); }).catch(error => { let alert = this.alertCtrl.create({title : "Erro", subTitle: "", buttons: ["Ok"]}); alert.present(); console.log(error)});
+
 
   }
 

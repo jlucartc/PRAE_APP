@@ -8,11 +8,15 @@
 
   <ion-navbar>
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title>Categorias</ion-title>
+    <ion-title>Categorias 54</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item *ngFor="let categoria of listaCategoriasNomes; let i = index" (click)="verCategoria( listaCategoriasIds[i] )">
+      {{ categoria }}
+    </ion-item>
+  </ion-list>
 </ion-content>

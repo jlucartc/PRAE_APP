@@ -33,7 +33,7 @@ export class MyApp {
   categorias() {
 
     this.menu.close();
-    this.nav.push(VerCategoriaPage);
+    this.nav.push(CategoriasPage);
 
   }
 
