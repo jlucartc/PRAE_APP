@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
+import { RequestOptions, Headers } from '@angular/http';
 /**
  * Generated class for the VerCategoriaPage page.
  *
@@ -21,13 +22,21 @@ export class VerCategoriaPage {
 
   private documentos;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http: HTTP) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http: HTTP, private alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VerCategoriaPage');
 
-    this.http.get("http://localhost:8000/listaCategoriasAppWS",{},{}).then(data => { console.log(data); }).catch(error => { console.log('Erro!'); });
+
+    var headers = {
+      "Access-Control-Allow-Origin":"*",
+      "Acess-Control-Allow-Methods":"GET",
+      "Accept":"application/json",
+      "content-type":"application/json"
+    };
+
+    this.http.get("http://localhost:8080/listaCategoriasAppWS",{},headers).then(data => { let alert = this.alertCtrl.create({title : "Sucesso", subTitle: data.url, buttons: ["Ok"]}); alert.present(); }).catch(error => { let alert = this.alertCtrl.create({title : "Erro", subTitle: "", buttons: ["Ok"]}); alert.present(); console.log(error)});
 
   }
 
