@@ -12,6 +12,7 @@ import { MapaPage } from '../pages/mapa/mapa';
 import { FormulariosPage } from '../pages/formularios/formularios';
 import { VerCategoriaPage } from '../pages/ver-categoria/ver-categoria';
 import { HTTP } from '@ionic-native/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HTTP } from '@ionic-native/http';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
+    HttpModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

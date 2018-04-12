@@ -4,6 +4,7 @@ import { CategoriasPage } from '../categorias/categorias';
 import { MapaPage } from '../mapa/mapa';
 import { FormulariosPage } from '../formularios/formularios';
 import { HTTP } from "@ionic-native/http";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'page-home',
@@ -11,11 +12,11 @@ import { HTTP } from "@ionic-native/http";
 })
 export class HomePage {
 
-  private feed = "http://www.prae.ufc.br/feed/";
+  private feed = "/feed";
 
-  private listaNoticias;
+  private noticias = "Sem notícias";
 
-  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private http : HTTP) {
+  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private http : HTTP, private req : HttpClient) {
 
   }
 
@@ -32,12 +33,20 @@ export class HomePage {
       "content-type":"application/xml"
     }
 
-    this.http.get(this.feed,{},headers).then(data => {
+    //this.req.get(this.feed).subscribe( res => { console.log(res); });
 
-        // tratar XML
+    this.http.get(this.feed,{},{}).then(data => {
 
-    }).catch(error => {});
+        console.log(data.data);
+
+    }).catch(error => { console.log(error); });
 
   }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad HomePage');
+    this.showNews();
+  }
+
 
 }

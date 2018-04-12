@@ -2,6 +2,11 @@
   "name": "PRAE_APP",
   "app_id": "",
   "type": "ionic-angular",
+  "proxies" : [{
+    "path" : "/feed",
+    "proxyUrl" : "http://www.prae.ufc.br/feed/",
+    "secure": false
+  }],
   "integrations": {
     "cordova": {}
   }
