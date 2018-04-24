@@ -50,4 +50,12 @@ export class MyApp {
     this.nav.push(FormulariosPage);
 
   }
+
+  inicio(){
+
+    this.menu.close();
+    this.nav.popToRoot();
+
+  }
+
 }

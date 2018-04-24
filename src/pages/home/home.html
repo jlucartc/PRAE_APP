@@ -12,7 +12,11 @@
   <p>
     If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
   </p>-->
-  <p>{{ noticias }}</p>
+  <ion-list>
+      <button ion-item *ngFor="let noticia of noticias">
+        {{ noticia.title }}
+      </button>
+  </ion-list>
 
   <ion-fab bottom right>
     <button ion-fab type="button" name="button"><ion-icon name="pin"></ion-icon></button>
