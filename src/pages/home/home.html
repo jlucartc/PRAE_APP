@@ -7,14 +7,17 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <!--The world is your oyster.
   <p>
     If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
   </p>-->
   <ion-list>
+    <ion-list-header>
+      <h1>Notícias</h1>
+    </ion-list-header>
       <button ion-item *ngFor="let noticia of noticias">
-        {{ noticia.title }}
+        <small>{{ noticia.title }}</small>
       </button>
   </ion-list>
 

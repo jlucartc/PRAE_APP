@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
-
+import { Http } from "@angular/http";
 import { VerCategoriaPage } from "../ver-categoria/ver-categoria";
 
 /**
@@ -20,31 +20,24 @@ export class CategoriasPage {
 
   private listaCategoriasNomes;
   private listaCategoriasIds;
+  private url = "http://localhost:8080";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http : HTTP, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http : HTTP, private alertCtrl: AlertController, private httpNg : Http) {
   }
 
   ngOnInit(){
 
-    this.carregarLista();
-
   }
 
   ionViewDidLoad() {
+    this.alertCtrl.create({title : 'ionViewDidLoad'}).present();
     console.log('ionViewDidLoad CategoriasPage');
+    this.carregarLista();
   }
 
   carregarLista(){
 
-    var headers = {
-      "Access-Control-Allow-Origin":"*",
-      "Acess-Control-Allow-Methods":"GET",
-      "Accept":"application/json",
-      "content-type":"application/json"
-    };
-
-    this.http.get("http://localhost:8080/app/ws/listaCategorias",{},headers).then(data => { this.listaCategoriasNomes = JSON.parse(data.data).nomes; this.listaCategoriasIds = JSON.parse(data.data).ids; }).catch(error => { let alert = this.alertCtrl.create({title : "Erro", subTitle: "", buttons: ["Ok"]}); alert.present(); console.log(error)});
-
+    this.httpNg.get(this.url+"/app/ws/listaCategorias").subscribe( data => { this.listaCategoriasIds = JSON.parse(data.json()).ids; this.listaCategoriasNomes = JSON.parse(data.json()).nomes; this.alertCtrl.create({ title: "Lista", message: JSON.parse(data.text()) }).present();}, error => { this.alertCtrl.create({title : "Error", message : error}).present(); });
 
   }
 

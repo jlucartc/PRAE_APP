@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController, Platform } from 'ionic-angular';
+import { NavController, MenuController, Platform, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { CategoriasPage } from '../categorias/categorias';
 import { MapaPage } from '../mapa/mapa';
 import { FormulariosPage } from '../formularios/formularios';
@@ -17,9 +17,9 @@ import * as xml2js from "xml2js";
 export class HomePage {
 
   private feed = "/feed";
-  private noticias : any;
+  private noticias ;
 
-  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform) {
+  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
 
   }
 
@@ -29,6 +29,9 @@ export class HomePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
+
+    let lc = this.loadingCtrl.create({ duration : 3000 }).present();
+
     this.showNews();
   }
 
@@ -42,20 +45,26 @@ export class HomePage {
 
     if(!this._platform.is("core")){
 
-      console.log("Cordova");
+      //console.log("Cordova");
 
-      this.httpNative.get("http://prae.ufc.br"+this.feed,{},{}).then( data => { console.log( data.data ); this.noticias = "Cordova" } ).catch( error => { console.log(error); } );
+      //var alert = this.alertCtrl.create({title: "Cordova"});
+
+      //alert.present();
+
+      this.httpNg.get("http://prae.ufc.br"+this.feed).subscribe( data => { let response; this.noticias = xml2js.parseString(data.text(), function(err,res){ response = res.rss.channel[0].item } ); this.noticias = response; } );
 
     }else{
 
 
       console.log("Not Cordova");
+
+      var alert = this.alertCtrl.create({title: "Not Cordova"});
+
+      alert.present();
+
       return this.httpNg.get(this.feed).subscribe( data => { let response; this.noticias = xml2js.parseString(data.text(), function(err,res){ response = res.rss.channel[0].item } ); this.noticias = response; console.log( this.noticias  ); } );
 
     }
 
   }
-
-
-
 }
