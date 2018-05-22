@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
 import { Http } from "@angular/http";
 import { VerCategoriaPage } from "../ver-categoria/ver-categoria";
@@ -20,9 +20,9 @@ export class CategoriasPage {
 
   private listaCategoriasNomes;
   private listaCategoriasIds;
-  private url = "http://localhost:8080";
+  private url = "https://prae-web.herokuapp.com/app/ws/listaCategorias";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http : HTTP, private alertCtrl: AlertController, private httpNg : Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http : HTTP, private alertCtrl: AlertController, private httpNg : Http, private loadingCtrl : LoadingController) {
   }
 
   ngOnInit(){
@@ -30,14 +30,16 @@ export class CategoriasPage {
   }
 
   ionViewDidLoad() {
-    this.alertCtrl.create({title : 'ionViewDidLoad'}).present();
-    console.log('ionViewDidLoad CategoriasPage');
-    this.carregarLista();
+    //this.alertCtrl.create({title : 'ionViewDidLoad'}).present();
+    //console.log('ionViewDidLoad CategoriasPage');
+    let lc = this.loadingCtrl.create();
+    this.carregarLista(lc);
   }
 
-  carregarLista(){
+  carregarLista(lc : Loading){
 
-    this.httpNg.get(this.url+"/app/ws/listaCategorias").subscribe( data => { this.listaCategoriasIds = JSON.parse(data.json()).ids; this.listaCategoriasNomes = JSON.parse(data.json()).nomes; this.alertCtrl.create({ title: "Lista", message: JSON.parse(data.text()) }).present();}, error => { this.alertCtrl.create({title : "Error", message : error}).present(); });
+    lc.present();
+    this.httpNg.get(this.url).subscribe( data => { this.listaCategoriasIds = data.json().ids; this.listaCategoriasNomes = data.json().nomes; setTimeout(lc.dismiss(),700); }, error => { this.alertCtrl.create({title : "Error", message : error}).present(); });
 
   }
 

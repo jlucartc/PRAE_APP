@@ -30,9 +30,9 @@ export class HomePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
 
-    let lc = this.loadingCtrl.create({ duration : 3000 }).present();
+    let lc = this.loadingCtrl.create();
 
-    this.showNews();
+    this.showNews(lc);
   }
 
   private handleXML = function(err,res){
@@ -41,7 +41,7 @@ export class HomePage {
 
   }
 
-  showNews(){
+  showNews(lc : Loading){
 
     if(!this._platform.is("core")){
 
@@ -51,7 +51,9 @@ export class HomePage {
 
       //alert.present();
 
-      this.httpNg.get("http://prae.ufc.br"+this.feed).subscribe( data => { let response; this.noticias = xml2js.parseString(data.text(), function(err,res){ response = res.rss.channel[0].item } ); this.noticias = response; } );
+      lc.present();
+
+      this.httpNg.get("http://prae.ufc.br"+this.feed).subscribe( data => { let response; this.noticias = xml2js.parseString(data.text(), function(err,res){ response = res.rss.channel[0].item } ); this.noticias = response; setTimeout(lc.dismiss(), 700); }, error => { lc.dismiss(); this.alertCtrl.create({title : "Erro" }).present(); } );
 
     }else{
 
@@ -62,7 +64,7 @@ export class HomePage {
 
       alert.present();
 
-      return this.httpNg.get(this.feed).subscribe( data => { let response; this.noticias = xml2js.parseString(data.text(), function(err,res){ response = res.rss.channel[0].item } ); this.noticias = response; console.log( this.noticias  ); } );
+      return this.httpNg.get(this.feed).subscribe( data => { let response; this.noticias = xml2js.parseString(data.text(), function(err,res){ response = res.rss.channel[0].item } ); this.noticias = response; console.log( this.noticias  ); }, error => { lc.dismiss();  this.alertCtrl.create({title : "Erro" }).present(); });
 
     }
 
