@@ -20,7 +20,7 @@ export class CategoriasPage {
 
   private listaCategoriasNomes;
   private listaCategoriasIds;
-  private url = "https://prae-web.herokuapp.com/app/ws/listaCategorias";
+  private url = "http://192.168.2.108:8000/app/ws/listaCategorias";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http : HTTP, private alertCtrl: AlertController, private httpNg : Http, private loadingCtrl : LoadingController) {
   }

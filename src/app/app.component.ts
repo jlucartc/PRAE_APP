@@ -9,6 +9,15 @@ import { MapaPage } from '../pages/mapa/mapa';
 import { FormulariosPage } from '../pages/formularios/formularios';
 import { VerCategoriaPage } from "../pages/ver-categoria/ver-categoria";
 import { HttpModule } from '@angular/http';
+import { SobreAPraePage } from '../pages/sobre-a-prae/sobre-a-prae';
+import { AuxiliosPage } from '../pages/auxilios/auxilios';
+import { BolsasPage } from '../pages/bolsas/bolsas';
+import { CoordenadoriasPage } from '../pages/coordenadorias/coordenadorias';
+import { InformativosPage } from '../pages/informativos/informativos';
+import { NoticiasPage } from '../pages/noticias/noticias';
+import { OuvidoriaPage } from '../pages/ouvidoria/ouvidoria';
+import { ResidenciaUniversitariaPage } from '../pages/residencia-universitaria/residencia-universitaria';
+import { RestauranteUniversitarioPage } from '../pages/restaurante-universitario/restaurante-universitario';
 
 @Component({
   templateUrl: 'app.html'
@@ -30,32 +39,90 @@ export class MyApp {
     });
   }
 
+  inicio(){
+
+    this.menu.close();
+
+    this.nav.popToRoot();
+
+  }
+
+  noticias(){
+
+    this.menu.close();
+
+    this.nav.push(NoticiasPage);
+
+  }
+
+  sobreAPRAE(){
+
+    this.menu.close();
+
+    this.nav.push(SobreAPraePage);
+
+  }
+
+  coordenadorias(){
+
+    this.menu.close();
+
+    this.nav.push(CoordenadoriasPage);
+
+  }
+
+  bolsas(){
+
+    this.menu.close();
+
+    this.nav.push(BolsasPage);
+
+  }
+
+  auxilios(){
+
+    this.menu.close();
+
+    this.nav.push(AuxiliosPage);
+
+  }
+
+  residenciaUniversitaria(){
+
+    this.menu.close();
+
+    this.nav.push(ResidenciaUniversitariaPage);
+
+  }
+
+  restauranteUniversitario(){
+
+    this.menu.close();
+
+    this.nav.push(RestauranteUniversitarioPage);
+
+  }
+
+  informativos(){
+
+    this.menu.close();
+
+    this.nav.push(InformativosPage);
+
+  }
+
+  ouvidoria(){
+
+    this.menu.close();
+
+    this.nav.push(OuvidoriaPage);
+
+  }
+
   categorias() {
 
     this.menu.close();
     this.nav.push(CategoriasPage);
 
   }
-
-  mapa(){
-
-    this.menu.close();
-    this.nav.push(MapaPage);
-
-  }
-
-  formularios(){
-
-    this.menu.close();
-    this.nav.push(FormulariosPage);
-
-  }
-
-  inicio(){
-
-    this.menu.close();
-    this.nav.popToRoot();
-
-  }
-
 }

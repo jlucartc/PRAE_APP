@@ -2,29 +2,23 @@
   <ion-navbar>
     <button ion-button menuToggle left><ion-icon name="menu"></ion-icon></button>
     <ion-title>
-      Ionic Blank
+      Início
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header>
-      <h1>Notícias</h1>
-    </ion-list-header>
-      <button ion-item *ngFor="let noticia of noticias">
-        <small>{{ noticia.title }}</small>
-      </button>
-  </ion-list>
 
-  <ion-fab bottom right>
-    <button ion-fab type="button" name="button"><ion-icon name="pin"></ion-icon></button>
-    <ion-fab-list side="top">
-        <button ion-fab type="button" name="button"> <ion-icon name="add"></ion-icon> </button>
-        <button ion-fab type="button" name="button"> <ion-icon name="add"></ion-icon> </button>
-        <button ion-fab type="button" name="button"> <ion-icon name="add"></ion-icon> </button>
-    </ion-fab-list>
-  </ion-fab>
-
+  <ion-grid>
+    <ion-row justify-content-center>
+        <ion-col col-4 > <button ion-button full large type="button" name="button"> Botão 1 </button> </ion-col><ion-col col-4> <button ion-button full large type="button" name="button"> Botão 2 </button> </ion-col><ion-col col-4> <button ion-button full large type="button" name="button"> Botão 3 </button> </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-4> <button ion-button full large type="button" name="button"> Botão 4 </button> </ion-col><ion-col col-4> <button ion-button full large type="button" name="button"> Botão 5 </button> </ion-col><ion-col col-4> <button ion-button full large type="button" name="button"> Botão 6 </button> </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-4> <button ion-button full large type="button" name="button"> Botão 7 </button> </ion-col><ion-col col-4> <button ion-button full large type="button" name="button"> Botão 8 </button> </ion-col><ion-col col-4> <button ion-button full large type="button" name="button"> Botão 9 </button> </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>

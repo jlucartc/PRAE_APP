@@ -13,6 +13,16 @@ import { FormulariosPage } from '../pages/formularios/formularios';
 import { VerCategoriaPage } from '../pages/ver-categoria/ver-categoria';
 import { HTTP } from '@ionic-native/http';
 import { HttpClientModule } from '@angular/common/http';
+import { SobreAPraePage } from '../pages/sobre-a-prae/sobre-a-prae';
+import { AuxiliosPage } from '../pages/auxilios/auxilios';
+import { BolsasPage } from '../pages/bolsas/bolsas';
+import { CoordenadoriasPage } from '../pages/coordenadorias/coordenadorias';
+import { InformativosPage } from '../pages/informativos/informativos';
+import { NoticiasPage } from '../pages/noticias/noticias';
+import { OuvidoriaPage } from '../pages/ouvidoria/ouvidoria';
+import { ResidenciaUniversitariaPage } from '../pages/residencia-universitaria/residencia-universitaria';
+import { RestauranteUniversitarioPage } from '../pages/restaurante-universitario/restaurante-universitario';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +31,16 @@ import { HttpClientModule } from '@angular/common/http';
     CategoriasPage,
     MapaPage,
     FormulariosPage,
-    VerCategoriaPage
+    VerCategoriaPage,
+    SobreAPraePage,
+    AuxiliosPage,
+    BolsasPage,
+    CoordenadoriasPage,
+    InformativosPage,
+    NoticiasPage,
+    OuvidoriaPage,
+    ResidenciaUniversitariaPage,
+    RestauranteUniversitarioPage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +55,16 @@ import { HttpClientModule } from '@angular/common/http';
     CategoriasPage,
     MapaPage,
     FormulariosPage,
-    VerCategoriaPage
+    VerCategoriaPage,
+    SobreAPraePage,
+    AuxiliosPage,
+    BolsasPage,
+    CoordenadoriasPage,
+    InformativosPage,
+    NoticiasPage,
+    OuvidoriaPage,
+    ResidenciaUniversitariaPage,
+    RestauranteUniversitarioPage
   ],
   providers: [
     StatusBar,

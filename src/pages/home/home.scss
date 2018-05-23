@@ -1,3 +1,36 @@
 page-home {
 
 }
+
+ion-row {
+
+  height: 100%;
+  background-color : #000000;
+  margin-top : 10px;
+  padding: 0;
+}
+
+ion-grid {
+
+  background-color : #115500;
+  height: 100%;
+
+}
+
+ion-col {
+
+  display: flex !important;
+  background-color : #ffffff;
+  height: 100%;
+  align-self: stretch !important;
+
+}
+
+button {
+
+  padding-left : 5px !important;
+  padding-right : 5px !important;
+  margin: 0 !important;
+  height: 100% !important;
+
+}
