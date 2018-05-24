@@ -41,12 +41,6 @@ export class NoticiasPage {
       this.showNews(lc);
     }
 
-    private handleXML = function(err,res){
-
-      this.noticias = res;
-
-    }
-
     showNews(lc : Loading){
 
       if(this._platform.is("mobile")){
@@ -59,9 +53,22 @@ export class NoticiasPage {
 
         lc.present();
 
-        //this.httpNative.get("http://prae.ufc.br"+this.feed,{},{}).then( data => { let response; this.noticias = xml2js.parseString(data.data, function(err,res){ response = res.rss.channel[0].item; console.log(res); } ) ; this.noticias = response; console.log( this.noticias ) ; this.alertCtrl.create({ title: "Ok" , message: "Http nativo funcionando"}).present(); setTimeout(lc.dismiss(),700); } ).catch( error => { this.alertCtrl.create({title : "Erro",  message : "Http nativo não funcionou"+error}).present(); } );
 
-        this.httpNg.get("http://prae.ufc.br"+this.feed).subscribe( data => { let response; this.noticias = xml2js.parseString(data.text(), function(err,res){ response = res.rss.channel[0].item } ); this.noticias = response; setTimeout(lc.dismiss(), 700); }, error => { lc.dismiss(); this.alertCtrl.create({title : "Erro", message: "Erro: "+error+"  :"+"http://prae.ufc.br"+this.feed }).present(); } );
+
+        this.httpNative.get("http://prae.ufc.br"+this.feed,{},{}).then(
+
+          data => {
+            let response;
+            this.noticias = xml2js.parseString(data.data, function(err,res){ response = res.rss.channel[0].item; console.log(res); } ) ;
+            this.noticias = response;
+            console.log( this.noticias ) ;
+            this.alertCtrl.create({ title: "Ok" , message: "Http nativo funcionando"}).present();
+            setTimeout(lc.dismiss(),700);
+          } ).catch( error => { this.alertCtrl.create({title : "Erro",  message : "Http nativo não funcionou"+error}).present(); } );
+
+
+
+          //this.httpNg.get("http://prae.ufc.br"+this.feed).subscribe( data => { let response; this.noticias = xml2js.parseString(data.text(), function(err,res){ response = res.rss.channel[0].item } ); this.noticias = response; setTimeout(lc.dismiss(), 700); }, error => { lc.dismiss(); this.alertCtrl.create({title : "Erro", message: "Erro: "+error+"  :"+"http://prae.ufc.br"+this.feed }).present(); } );
 
       }else if(this._platform.is("core")){
 

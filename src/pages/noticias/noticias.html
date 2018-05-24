@@ -5,20 +5,22 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Noticias</ion-title>
+    <button ion-button menuToggle left><ion-icon name="menu"></ion-icon></button>
+    <ion-title>
+      Notícias
+    </ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
     <ion-list>
-        <button ion-item *ngFor="let noticia of noticias">
-          <small>{{ noticia.title }}</small>
-        </button>
+
+        <ion-row class="ion-item" ion-item *ngFor="let noticia of noticias">
+          <ion-col><button class="news-click-button" type="button" name="button"><small>{{ noticia.title }}</small></button></ion-col>
+        </ion-row>
     </ion-list>
 
     <ion-fab bottom right>
