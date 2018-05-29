@@ -14,5 +14,42 @@
 
 
 <ion-content padding>
+  <ion-segment [(ngModel)]="secoes">
+    <ion-segment-button value="sobre" active>
+        Sobre
+    </ion-segment-button>
+    <ion-segment-button value="missao">
+        Missão
+    </ion-segment-button>
+    <ion-segment-button value="metas">
+        Metas
+    </ion-segment-button>
+
+  </ion-segment>
+
+  <div [ngSwitch]="secoes" >
+    <div *ngSwitchCase="'sobre'" >
+      <br>
+      <h3 color="primary" >Apresentação da PRAE</h3>
+      <p>A Pró-Reitoria de Assuntos Estudantis (PRAE) é a unidade gestora de políticas para a promoção e apoio ao estudante de graduação da Universidade Federal do Ceará (UFC), consolidando o amplo objetivo de construção da cidadania nos diversos segmentos acadêmicos que compõem a comunidade universitária.
+
+      É da natureza do seu trabalho incentivar, acompanhar e promover o desenvolvimento do estudante em toda sua trajetória acadêmica, através de ações efetivas nas áreas social, técnico-científica, cultural, política e esportiva.</p>
+
+    </div>
+    <div *ngSwitchCase="'missao'">
+      <br>
+      <h3 color="primary" >MISSÃO</h3>
+      <p>Fortalecer o vínculo institucional do estudante pelas condições de acesso, permanência, melhoria contínua e qualidade de vida.</p>
+
+    </div>
+    <div *ngSwitchCase="'metas'">
+      <br>
+      <h3 color="primary" >PRINCIPAIS METAS DOS PROGRAMAS</h3>
+      <p>Ampliar as condições de permanência dos estudantes em situação de vulnerabilidade socioeconômica, na UFC;
+      Viabilizar a igualdade de oportunidades entre os estudantes;
+      Contribuir para a melhoria do desempenho acadêmico individual;
+      Agir, preventivamente, nas situações de retenção e evasão decorrentes da insuficiência de condições financeiras.</p>
+    </div>
+  </div>
 
 </ion-content>

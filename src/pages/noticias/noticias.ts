@@ -7,6 +7,7 @@ import { Observable } from "rxjs/Rx";
 import 'rxjs/add/operator/map';
 import { HTTP } from "@ionic-native/http";
 import * as xml2js from "xml2js";
+import { BrowserTab } from "@ionic-native/browser-tab";
 
 /**
  * Generated class for the NoticiasPage page.
@@ -25,12 +26,34 @@ export class NoticiasPage {
   private feed = "/feed";
   private noticias ;
 
-  constructor( public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
+  constructor( public browserTabCtrl : BrowserTab ,public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
   }
 
 
     showMenu(){
       this.menuCtrl.open();
+    }
+
+    abrirUrl(url : String){
+
+        this.browserTabCtrl.isAvailable().then(
+
+          isAvailable => {
+
+            if(isAvailable){
+
+              this.browserTabCtrl.openUrl(url.toString()).then();
+
+            }else{
+
+              this.alertCtrl.create({ title: "Erro" , message: "Não foi possível abrir o browser"}).present();
+
+            }
+
+          }
+
+        );
+
     }
 
     ionViewDidLoad() {
@@ -62,7 +85,7 @@ export class NoticiasPage {
             this.noticias = xml2js.parseString(data.data, function(err,res){ response = res.rss.channel[0].item; console.log(res); } ) ;
             this.noticias = response;
             console.log( this.noticias ) ;
-            this.alertCtrl.create({ title: "Ok" , message: "Http nativo funcionando"}).present();
+            /*this.alertCtrl.create({ title: "Ok" , message: "Http nativo funcionando"}).present();*/
             setTimeout(lc.dismiss(),700);
           } ).catch( error => { this.alertCtrl.create({title : "Erro",  message : "Http nativo não funcionou"+error}).present(); } );
 

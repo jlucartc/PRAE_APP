@@ -18,9 +18,20 @@
 
     <ion-list>
 
-        <ion-row class="ion-item" ion-item *ngFor="let noticia of noticias">
-          <ion-col><button class="news-click-button" type="button" name="button"><small>{{ noticia.title }}</small></button></ion-col>
+        <!--<ion-row class="ion-item" ion-item *ngFor="let noticia of noticias">
+          <ion-col><button class="news-click-button" ion-button type="button" name="button"><small>{{ noticia.title }}</small></button></ion-col>
+        </ion-row>-->
+
+        <ion-row  *ngFor="let noticia of noticias" (click)="abrirUrl(noticia.link)">
+          <ion-col>
+            <ion-card>
+              <ion-card-content>
+                <ion-card-title>{{ noticia.title }}<br><ion-badge item-end color="secondary">Nova notícia</ion-badge></ion-card-title>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
         </ion-row>
+
     </ion-list>
 
     <ion-fab bottom right>

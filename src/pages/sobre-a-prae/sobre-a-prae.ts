@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
@@ -14,8 +14,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'sobre-a-prae.html',
 })
 export class SobreAPraePage {
+  secoes: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.secoes = "sobre";
   }
 
   ionViewDidLoad() {

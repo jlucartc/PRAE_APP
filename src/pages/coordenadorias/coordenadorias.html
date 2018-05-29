@@ -14,4 +14,10 @@
 
 <ion-content padding>
 
+  <ion-list>
+    <ion-item *ngFor="let coordenadoria of coordenadorias">
+      {{ coordenadoria.nome }}
+    </ion-item>
+  </ion-list>
+
 </ion-content>
