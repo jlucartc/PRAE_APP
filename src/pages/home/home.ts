@@ -32,76 +32,76 @@ export class HomePage {
 
   }
 
-  showMenu(){
+  public showMenu() : void{
     this.menuCtrl.open();
   }
 
-  ionViewDidLoad() {
+  public ionViewDidLoad() : void {
     console.log('ionViewDidLoad HomePage');
   }
 
-  inicio(){
+  public inicio() : void{
 
     this.navCtrl.popToRoot();
 
   }
 
-  noticias(){
+  public noticias() : void{
 
     this.navCtrl.push(NoticiasPage);
 
   }
 
-  sobreAPRAE(){
+  public sobreAPRAE() : void{
 
 
     this.navCtrl.push(SobreAPraePage);
 
   }
 
-  coordenadorias(){
+  public coordenadorias() : void{
 
     this.navCtrl.push(CoordenadoriasPage);
 
   }
 
-  bolsas(){
+  public bolsas() : void{
 
     this.navCtrl.push(BolsasPage);
 
   }
 
-  auxilios(){
+  public auxilios() : void{
 
     this.navCtrl.push(AuxiliosPage);
 
   }
 
-  residenciaUniversitaria(){
+  public residenciaUniversitaria() : void{
 
     this.navCtrl.push(ResidenciaUniversitariaPage);
 
   }
 
-  restauranteUniversitario(){
+  public restauranteUniversitario() : void{
 
     this.navCtrl.push(RestauranteUniversitarioPage);
 
   }
 
-  informativos(){
+  public informativos() : void{
 
     this.navCtrl.push(InformativosPage);
 
   }
 
-  ouvidoria(){
+  public ouvidoria() : void{
 
     this.navCtrl.push(OuvidoriaPage);
 
   }
 
-  categorias() {
+  public categorias() : void{
 
     this.navCtrl.push(CategoriasPage);
 

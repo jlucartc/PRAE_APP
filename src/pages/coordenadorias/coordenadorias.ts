@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HTTP } from "@ionic-native/http";
-
+import { VerCoordenadoriaPage } from "../ver-coordenadoria/ver-coordenadoria";
 /**
  * Generated class for the CoordenadoriasPage page.
  *
@@ -28,7 +28,7 @@ export class CoordenadoriasPage {
     this.buscarDados();
   }
 
-  buscarDados(){
+  public buscarDados() : void{
     console.log("buscarDados()");
     this.httpNativo.get('http://192.168.2.108:8000/app/ws/listaCoordenadorias',{},{}).then( data => {
 
@@ -40,11 +40,31 @@ export class CoordenadoriasPage {
 
         for(var i = 0; i < dados.length; i++){
 
-          this.coordenadorias.push({ "id" : dados[i].id, "nome" : dados[i].nome });
+          this.coordenadorias.push(dados[i]);
+          console.log(dados[i]);
 
         }
 
      } ).catch( error => { console.log(error); } );
+
+  }
+
+  public verCoordenadoria(id) : void {
+
+    let coordenadoria;
+
+    for(let item of this.coordenadorias){
+
+      if(item.id == id){
+
+        coordenadoria = item;
+        break;
+
+      }
+
+    }
+
+    this.navCtrl.push(VerCoordenadoriaPage, { coordenadoria: coordenadoria });
 
   }
 

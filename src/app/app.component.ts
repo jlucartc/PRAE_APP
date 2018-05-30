@@ -39,7 +39,7 @@ export class MyApp {
     });
   }
 
-  inicio(){
+  public inicio() : void {
 
     this.menu.close();
 
@@ -47,7 +47,7 @@ export class MyApp {
 
   }
 
-  noticias(){
+  public noticias() : void{
 
     this.menu.close();
 
@@ -55,7 +55,7 @@ export class MyApp {
 
   }
 
-  sobreAPRAE(){
+  public sobreAPRAE() : void{
 
     this.menu.close();
 
@@ -63,7 +63,7 @@ export class MyApp {
 
   }
 
-  coordenadorias(){
+  public coordenadorias() : void{
 
     this.menu.close();
 
@@ -71,7 +71,7 @@ export class MyApp {
 
   }
 
-  bolsas(){
+  public bolsas() : void{
 
     this.menu.close();
 
@@ -79,7 +79,7 @@ export class MyApp {
 
   }
 
-  auxilios(){
+  public auxilios() : void{
 
     this.menu.close();
 
@@ -87,7 +87,7 @@ export class MyApp {
 
   }
 
-  residenciaUniversitaria(){
+  public residenciaUniversitaria() : void{
 
     this.menu.close();
 
@@ -95,7 +95,7 @@ export class MyApp {
 
   }
 
-  restauranteUniversitario(){
+  public restauranteUniversitario() : void{
 
     this.menu.close();
 
@@ -103,7 +103,7 @@ export class MyApp {
 
   }
 
-  informativos(){
+  public informativos() : void{
 
     this.menu.close();
 
@@ -111,7 +111,7 @@ export class MyApp {
 
   }
 
-  ouvidoria(){
+  public ouvidoria() : void{
 
     this.menu.close();
 
@@ -119,7 +119,7 @@ export class MyApp {
 
   }
 
-  categorias() {
+  public categorias() : void{
 
     this.menu.close();
     this.nav.push(CategoriasPage);

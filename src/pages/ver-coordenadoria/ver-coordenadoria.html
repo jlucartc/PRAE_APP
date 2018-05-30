@@ -1,0 +1,44 @@
+<!--
+  Generated template for the VerCoordenadoriaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ coordenadoria.nome }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-segment [(ngModel)]="verCoordenadoriaSecoes">
+  <ion-segment-button value="Dados">Dados</ion-segment-button>
+  <ion-segment-button value="Divisoes">Divisoes</ion-segment-button>
+  <ion-segment-button value="Mapas">Mapas</ion-segment-button>
+</ion-segment>
+
+<div class="" [ngSwitch]="verCoordenadoriaSecoes">
+  <div *ngSwitchCase="'Dados'">
+    <ul>
+      <li><b>Coordenador:</b>  {{ coordenadoria.coordenador }}</li>
+      <li><b>Fone:</b> {{ coordenadoria.fone }}</li>
+      <li><b>Fax:</b> {{ coordenadoria.fax }}</li>
+      <li><b>Email:</b> {{ coordenadoria.email }}</li>
+    </ul>
+  </div>
+  <div *ngSwitchCase="'Divisoes'">
+    <ion-list>
+      <button ion-item *ngFor="let divisao of coordenadoria.divisoes" ion-item (click)="verDivisao(divisao.id)">{{ divisao.nome }}</button>
+    </ion-list>
+  </div>
+  <div *ngSwitchCase="'Mapas'">
+    <ion-list>
+      <button ion-item *ngFor="let mapa of coordenadoria.mapas" (click)="verMapa(mapa.rota)">{{ mapa.nome }}</button>
+    </ion-list>
+  </div>
+</div>
+
+</ion-content>

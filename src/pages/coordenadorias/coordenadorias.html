@@ -12,11 +12,11 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
   <ion-list>
-    <ion-item *ngFor="let coordenadoria of coordenadorias">
-      {{ coordenadoria.nome }}
+    <ion-item *ngFor="let coordenadoria of coordenadorias" (click)="verCoordenadoria(coordenadoria.id)">
+      <ion-icon name="arrow-forward" margin-right></ion-icon>{{ coordenadoria.nome }}
     </ion-item>
   </ion-list>
 

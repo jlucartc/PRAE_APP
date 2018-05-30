@@ -23,7 +23,10 @@ import { NoticiasPage } from '../pages/noticias/noticias';
 import { OuvidoriaPage } from '../pages/ouvidoria/ouvidoria';
 import { ResidenciaUniversitariaPage } from '../pages/residencia-universitaria/residencia-universitaria';
 import { RestauranteUniversitarioPage } from '../pages/restaurante-universitario/restaurante-universitario';
-
+import { VerCoordenadoriaPage } from "../pages/ver-coordenadoria/ver-coordenadoria";
+import { VerDivisaoPage } from "../pages/ver-divisao/ver-divisao";
+import { VerMapaPage } from "../pages/ver-mapa/ver-mapa";
+import { ProvedorDeDadosProvider } from '../providers/provedor-de-dados/provedor-de-dados';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { RestauranteUniversitarioPage } from '../pages/restaurante-universitario
     NoticiasPage,
     OuvidoriaPage,
     ResidenciaUniversitariaPage,
-    RestauranteUniversitarioPage
+    RestauranteUniversitarioPage,
+    VerCoordenadoriaPage,
+    VerDivisaoPage,
+    VerMapaPage
   ],
   imports: [
     BrowserModule,
@@ -65,14 +71,18 @@ import { RestauranteUniversitarioPage } from '../pages/restaurante-universitario
     NoticiasPage,
     OuvidoriaPage,
     ResidenciaUniversitariaPage,
-    RestauranteUniversitarioPage
+    RestauranteUniversitarioPage,
+    VerCoordenadoriaPage,
+    VerDivisaoPage,
+    VerMapaPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     BrowserTab,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    HTTP
+    HTTP,
+    ProvedorDeDadosProvider
   ]
 })
 export class AppModule {}
