@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, Response } from "@angular/http";
 import { HTTP } from "@ionic-native/http";
 import * as xml2js from "xml2js";
+import 'rxjs/add/observable/fromPromise';
 /*
 Generated class for the ProvedorDeDadosProvider provider.
 
@@ -12,7 +13,7 @@ See https://angular.io/guide/dependency-injection for more info on providers
 and Angular DI.
 */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 
 export class ProvedorDeDadosProvider {
@@ -51,7 +52,7 @@ export class ProvedorDeDadosProvider {
 
   public listaCoordenadorias(){}
 
-  public noticias(lc) : Object {
+  public noticias() : Object {
 
     if(this._platform.is("mobile")){
 
@@ -61,17 +62,14 @@ export class ProvedorDeDadosProvider {
 
       alert.present();
 
-      lc.present();
-
       let noticias;
 
       this.httpNative.get("http://prae.ufc.br/feed",{},{}).then(
 
         data => {
           noticias = xml2js.parseString(data.data, function(err,res){ noticias = res.rss.channel[0].item; console.log(res); } ) ;
-          console.log( noticias ) ;
+          console.log( "ProvedorDeDadosProvider(Mobile): "+noticias ) ;
           /*this.alertCtrl.create({ title: "Ok" , message: "Http nativo funcionando"}).present();*/
-          setTimeout(lc.dismiss(),700);
         } ).catch( error => {this.alertCtrl.create({title : "Erro",  message : "Http nativo não funcionou"+error}).present(); } );
 
         return Observable.fromPromise(noticias);
@@ -89,7 +87,7 @@ export class ProvedorDeDadosProvider {
 
         let noticias;
 
-        return this.httpNg.get(this.noticiasProxy)._do( data => { noticias = xml2js.parseString(data.text(), function(err,res){ noticias = res.rss.channel[0].item } ); console.log( this.noticias  ); }, error => { lc.dismiss();  this.alertCtrl.create({title : "Erro" }).present(); } ); //.get(this.noticiasProxy);  //.subscribe( data => { noticias = xml2js.parseString(data.text(), function(err,res){ noticias = res.rss.channel[0].item } ); console.log( this.noticias  ); }, error => { lc.dismiss();  this.alertCtrl.create({title : "Erro" }).present(); });
+        return this.httpNg.get(this.noticiasProxy)._do( data => { noticias = xml2js.parseString(data.text(), function(err,res){ noticias = res.rss.channel[0].item } ); console.log( "ProvedorDeDadosProvider(Not mobile): "+this.noticias  ); }, error => { this.alertCtrl.create({title : "Erro" }).present(); } ); //.get(this.noticiasProxy);  //.subscribe( data => { noticias = xml2js.parseString(data.text(), function(err,res){ noticias = res.rss.channel[0].item } ); console.log( this.noticias  ); }, error => { lc.dismiss();  this.alertCtrl.create({title : "Erro" }).present(); });
 
 
       }
