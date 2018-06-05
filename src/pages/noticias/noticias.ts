@@ -29,13 +29,15 @@ export class NoticiasPage {
 
   constructor( public provedorDeDados : ProvedorDeDadosProvider, public browserTabCtrl : BrowserTab ,public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
 
-    ( <Observable<any>> this.provedorDeDados.noticias()).subscribe({ next(data){ this.noticias = data; } , error(msg){ console.log("Erro(noticias.ts): "+msg); } });
+    this.provedorDeDados.noticias().subscribe( (data) => { let dados; xml2js.parseString(data.text(), function(err,res){ if(!err){ dados = res.rss.channel[0].item; }else{ console.log("Erro:"+err); } } ); this.noticias = dados;}, (error) => { console.log("Erro(noticias.ts): "+error); }  );
 
   }
 
 
   public showMenu() : void{
+
     this.menuCtrl.open();
+
   }
 
   public abrirUrl(url : String) : void{
@@ -66,12 +68,12 @@ export class NoticiasPage {
     let lc = this.loadingCtrl.create();
 
     this.showNews(lc);
+
   }
 
   public showNews(lc : Loading) :  void{
 
 
-
   }
 
-  }
+}
