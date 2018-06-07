@@ -28,7 +28,7 @@ export class ProvedorDeDadosProvider {
   constructor(public http: HttpClient, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
     console.log('Hello ProvedorDeDadosProvider Provider');
 
-    this.noticiasFullUrl = "http://prae.ufc.br/feed";
+    this.noticiasFullUrl = "http://192.168.2.108:8000/app/ws/noticias";
 
     this.noticiasProxy = "/feed";
 
@@ -54,18 +54,18 @@ export class ProvedorDeDadosProvider {
 
     if(this._platform.is("mobile")){
 
-      //console.log("Mobile");
+      console.log("Mobile");
 
       //var alert = this.alertCtrl.create({title: "Mobile"});
 
       //alert.present();
 
-      return this.httpNg.get("/feed");
+      return this.httpNg.get(this.noticiasFullUrl);
 
     }else if(this._platform.is("core")){
 
 
-      //console.log("Not mobile");
+      console.log("Not mobile");
 
       //var alert = this.alertCtrl.create({title: "Not Cordova"});
 

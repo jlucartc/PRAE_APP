@@ -29,7 +29,7 @@ export class NoticiasPage {
 
   constructor( public provedorDeDados : ProvedorDeDadosProvider, public browserTabCtrl : BrowserTab ,public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
 
-    this.provedorDeDados.noticias().subscribe( (data) => { let dados; xml2js.parseString(data.text(), function(err,res){ if(!err){ dados = res.rss.channel[0].item; }else{ console.log("Erro:"+err); } } ); this.noticias = dados;}, (error) => { console.log("Erro(noticias.ts): "+error); }  );
+    this.provedorDeDados.noticias().subscribe( (data) => { this.noticias = data.json(); console.log(this.noticias)}, (error) => { console.log("Erro(noticias.ts): "+error); }  );
 
   }
 

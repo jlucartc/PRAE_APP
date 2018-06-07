@@ -22,11 +22,11 @@
           <ion-col><button class="news-click-button" ion-button type="button" name="button"><small>{{ noticia.title }}</small></button></ion-col>
         </ion-row>-->
 
-        <ion-row  *ngFor="let noticia of noticias" (click)="abrirUrl(noticia.link)">
+        <ion-row  *ngFor="let noticia of noticias" (click)="abrirUrl(noticia.guid)">
           <ion-col>
             <ion-card>
               <ion-card-content>
-                <ion-card-title>{{ noticia.title }}<br><ion-badge item-end color="secondary">Nova notícia</ion-badge></ion-card-title>
+                <ion-card-title>{{ noticia.titulo }}<br><ion-badge item-end color="secondary">Nova notícia</ion-badge></ion-card-title>
               </ion-card-content>
             </ion-card>
           </ion-col>

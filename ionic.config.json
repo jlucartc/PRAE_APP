@@ -4,7 +4,7 @@
   "type": "ionic-angular",
   "proxies" : [{
     "path" : "/feed",
-    "proxyUrl" : "http://www.prae.ufc.br/feed/",
+    "proxyUrl" : "http://192.168.2.108/app/ws/noticias",
     "secure": false
   }],
   "integrations": {
