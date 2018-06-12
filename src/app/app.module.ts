@@ -27,6 +27,9 @@ import { VerCoordenadoriaPage } from "../pages/ver-coordenadoria/ver-coordenador
 import { VerDivisaoPage } from "../pages/ver-divisao/ver-divisao";
 import { VerMapaPage } from "../pages/ver-mapa/ver-mapa";
 import { ProvedorDeDadosProvider } from '../providers/provedor-de-dados/provedor-de-dados';
+import { Push } from '@ionic-native/push';
+import { NativeStorage } from '@ionic-native/native-storage';
+
 
 @NgModule({
   declarations: [
@@ -77,12 +80,14 @@ import { ProvedorDeDadosProvider } from '../providers/provedor-de-dados/provedor
     VerMapaPage
   ],
   providers: [
+    Push,
     StatusBar,
     SplashScreen,
     BrowserTab,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HTTP,
-    ProvedorDeDadosProvider
+    ProvedorDeDadosProvider,
+    NativeStorage
   ]
 })
 export class AppModule {}

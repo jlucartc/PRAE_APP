@@ -21,6 +21,9 @@ import { NoticiasPage } from '../noticias/noticias';
 import { OuvidoriaPage } from '../ouvidoria/ouvidoria';
 import { ResidenciaUniversitariaPage } from '../residencia-universitaria/residencia-universitaria';
 import { RestauranteUniversitarioPage } from '../restaurante-universitario/restaurante-universitario';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { NativeStorage } from '@ionic-native/native-storage';
+
 
 @Component({
   selector: 'page-home',
@@ -28,7 +31,52 @@ import { RestauranteUniversitarioPage } from '../restaurante-universitario/resta
 })
 export class HomePage {
 
-  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
+  private noticiasNovas;
+
+  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private push : Push, private storageCtrl : NativeStorage) {
+
+    this.push.hasPermission().then((res: any) => {
+
+      if (res.isEnabled) {
+
+        const options: PushOptions = {
+          android: {},
+          ios: {
+            alert: 'true',
+            badge: true,
+            sound: 'false'
+          },
+          windows: {},
+          browser: {
+            pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+          }
+        };
+
+        alert("ok");
+
+        const pushObject: PushObject = this.push.init(options);
+
+        pushObject.on('notification').subscribe((notification: any) => {
+
+        this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => { return data; }, error => { this.storageCtrl.setItem("noticiasNovas",0).then(
+
+          () => {},
+          error => { console.log(error); }
+
+        ); } );
+
+
+        /* Aqui vai a lógica para alterar possíveis badges e atualizar telas */ alert(notification.message) } );
+
+        //pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+
+        //pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+
+      }
+
+    });
+
+
 
   }
 
