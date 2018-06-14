@@ -11,7 +11,8 @@
 
   <ion-grid>
     <ion-row justify-content-center>
-        <ion-col> <button ion-button full large (click)="noticias()" type="button" class="grid-menu-button" name="button"> Notícias {{ noticiasNovas }} <ion-badge item-end *ngIf="noticiasNovas">{{ noticiasNovas }}</ion-badge> </button> </ion-col>
+        <ion-col><button ion-button full large item-start (click)="noticias()" type="button" class="grid-menu-button" name="button">Notícias<ion-badge color="danger" margin-start *ngIf="noticiasNovas">{{ noticiasNovas }}</ion-badge></button>
+        </ion-col>
     </ion-row>
     <ion-row>
       <ion-col> <button ion-button full large (click)="sobreAPRAE()" type="button" name="button" class="grid-menu-button"> Sobre a PRAE </button> </ion-col>

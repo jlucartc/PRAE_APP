@@ -35,47 +35,55 @@ export class HomePage {
 
   constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private push : Push, private storageCtrl : NativeStorage) {
 
-    this.push.hasPermission().then((res: any) => {
-
-      if (res.isEnabled) {
-
-        const options: PushOptions = {
-          android: {},
-          ios: {
-            alert: 'true',
-            badge: true,
-            sound: 'false'
-          },
-          windows: {},
-          browser: {
-            pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-          }
-        };
-
-        alert("ok");
-
-        const pushObject: PushObject = this.push.init(options);
-
-        pushObject.on('notification').subscribe((notification: any) => {
-
-        this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => { return data; }, error => { this.storageCtrl.setItem("noticiasNovas",0).then(
-
-          () => {},
-          error => { console.log(error); }
-
-        ); } );
+    this._platform.ready().then(() => {
 
 
-        /* Aqui vai a lógica para alterar possíveis badges e atualizar telas */ alert(notification.message) } );
+          this.push.hasPermission().then((res: any) => {
 
-        //pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+            if (res.isEnabled) {
 
-        //pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+              const options: PushOptions = {
+                android: {},
+                ios: {
+                  alert: 'true',
+                  badge: true,
+                  sound: 'false'
+                },
+                windows: {},
+                browser: {
+                  pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+                }
+              };
 
-      }
+              alert("ok");
+
+              const pushObject: PushObject = this.push.init(options);
+
+              pushObject.on('notification').subscribe((notification: any) => {
+
+                  console.log("notificação");
+
+                  this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => { this.noticiasNovas = data+1 }, error => {
+
+                      this.storageCtrl.setItem("noticiasNovas",1).then(
+                        (data) => { console.log(this.noticiasNovas) },
+                        error => { console.log(error); }
+                      );
+
+                  } );
+
+                  alert(notification.message)
+
+              } );
+
+              //this.noticiasNovas = 1;
+              //console.log("noticiasNovas: "+this.noticiasNovas);
+
+            }
+
+          });
 
     });
-
 
 
   }

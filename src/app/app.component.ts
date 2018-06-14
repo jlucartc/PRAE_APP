@@ -5,10 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { CategoriasPage } from '../pages/categorias/categorias';
-import { MapaPage } from '../pages/mapa/mapa';
-import { FormulariosPage } from '../pages/formularios/formularios';
-import { VerCategoriaPage } from "../pages/ver-categoria/ver-categoria";
-import { HttpModule } from '@angular/http';
 import { SobreAPraePage } from '../pages/sobre-a-prae/sobre-a-prae';
 import { AuxiliosPage } from '../pages/auxilios/auxilios';
 import { BolsasPage } from '../pages/bolsas/bolsas';
