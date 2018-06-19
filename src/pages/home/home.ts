@@ -6,6 +6,7 @@ import { Observable } from "rxjs/Rx";
 import 'rxjs/add/operator/map';
 import { HTTP } from "@ionic-native/http";
 import * as xml2js from "xml2js";
+import {FormsModule} from '@angular/forms';
 
 import { CategoriasPage } from '../categorias/categorias';
 import { MapaPage } from '../mapa/mapa';
@@ -37,10 +38,10 @@ export class HomePage {
 
     this._platform.ready().then(() => {
 
-
           this.push.hasPermission().then((res: any) => {
 
             if (res.isEnabled) {
+
 
               const options: PushOptions = {
                 android: {},
@@ -55,15 +56,38 @@ export class HomePage {
                 }
               };
 
+              this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => {
+
+                  this.noticiasNovas = data;
+
+              }, error => {
+
+                  this.storageCtrl.setItem("noticiasNovas",0).then(
+                    (data) => { console.log(this.noticiasNovas); this.noticiasNovas = 0;},
+                    error => { console.log(error); }
+                  );
+
+              } );
+
+
               alert("ok");
 
               const pushObject: PushObject = this.push.init(options);
 
               pushObject.on('notification').subscribe((notification: any) => {
 
-                  console.log("notificação");
+                  alert("notificação");
 
-                  this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => { this.noticiasNovas = data+1 }, error => {
+                  this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => {
+
+                      this.noticiasNovas = data+1;
+                      this.storageCtrl.setItem("noticiasNovas",this.noticiasNovas).then(
+
+                        (data) => { }, error => { console.log(); }
+
+                      )
+
+                  }, error => {
 
                       this.storageCtrl.setItem("noticiasNovas",1).then(
                         (data) => { console.log(this.noticiasNovas) },
@@ -72,12 +96,58 @@ export class HomePage {
 
                   } );
 
-                  alert(notification.message)
+                  this.noticiasNovas = this.storageCtrl.getItem("noticiasNovasGUID").then( (data) => {
+
+                    var noticiasNovasGUID : Array<any> = data;
+
+                    noticiasNovasGUID.push(notification.additionalData.guid);
+
+                    this.storageCtrl.setItem("noticiasNovasGUID",data).then(
+
+                      (data) => {},
+                      error => { console.log(error) }
+
+                    );
+
+                  }, error => {
+
+                    this.storageCtrl.setItem("noticiasNovasGUID",Array(notification.additionalData.guid)).then(
+                      (data) => {},
+                      error => { console.log(error) }
+                    );
+
+                  } );
+
+                  console.log(notification.additionalData.guid);
 
               } );
 
               //this.noticiasNovas = 1;
               //console.log("noticiasNovas: "+this.noticiasNovas);
+
+
+              /*
+              const options: PushOptions = {
+                android: {},
+                ios: {
+                  alert: 'true',
+                  badge: true,
+                  sound: 'false'
+                },
+                windows: {},
+                browser: {
+                  pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+                }
+              };*/
+
+              //const pushObject: PushObject = this.push.init(options);
+
+
+              pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+
+              pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+
+              pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
 
             }
 

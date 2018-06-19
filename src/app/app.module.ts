@@ -29,6 +29,7 @@ import { VerMapaPage } from "../pages/ver-mapa/ver-mapa";
 import { ProvedorDeDadosProvider } from '../providers/provedor-de-dados/provedor-de-dados';
 import { Push } from '@ionic-native/push';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { FormsModule } from '@angular/forms';  
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { NativeStorage } from '@ionic-native/native-storage';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

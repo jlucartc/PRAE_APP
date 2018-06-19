@@ -11,7 +11,7 @@
 
   <ion-grid>
     <ion-row justify-content-center>
-        <ion-col><button ion-button full large item-start (click)="noticias()" type="button" class="grid-menu-button" name="button">Notícias<ion-badge color="danger" margin-start *ngIf="noticiasNovas">{{ noticiasNovas }}</ion-badge></button>
+        <ion-col><button ion-button full large item-start (click)="noticias()" type="button" class="grid-menu-button" name="button">Notícias<ion-badge color="danger" margin-start *ngIf="noticiasNovas && noticiasNovas != 0" [(ngModel)]="noticiasNovas" name="noticiasNovas" ngDefaultControl>{{ noticiasNovas }}</ion-badge></button>
         </ion-col>
     </ion-row>
     <ion-row>

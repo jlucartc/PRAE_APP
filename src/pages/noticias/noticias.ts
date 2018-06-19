@@ -9,6 +9,7 @@ import { HTTP } from "@ionic-native/http";
 import * as xml2js from "xml2js";
 import { BrowserTab } from "@ionic-native/browser-tab";
 import { ProvedorDeDadosProvider } from "../../providers/provedor-de-dados/provedor-de-dados";
+import { NativeStorage } from '@ionic-native/native-storage';
 
 /**
 * Generated class for the NoticiasPage page.
@@ -27,7 +28,7 @@ export class NoticiasPage {
   private feed = "/feed";
   private noticias ;
 
-  constructor( public provedorDeDados : ProvedorDeDadosProvider, public browserTabCtrl : BrowserTab ,public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
+  constructor( public provedorDeDados : ProvedorDeDadosProvider, public browserTabCtrl : BrowserTab ,public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private storageCtrl : NativeStorage) {
 
     this.provedorDeDados.noticias().subscribe( (data) => { this.noticias = data.json(); console.log(this.noticias)}, (error) => { console.log("Erro(noticias.ts): "+error); }  );
 
@@ -41,6 +42,58 @@ export class NoticiasPage {
   }
 
   public abrirUrl(url : String) : void{
+
+    var noticiasGuidArray : Array<any>;
+
+    this.storageCtrl.getItem("noticiasNovasGUID").then(
+
+      (data) => {
+
+        console.log(data);
+
+        noticiasGuidArray = data;
+
+        var urls = noticiasGuidArray.filter( (noticia) => { console.log(noticia); return noticia == url} );
+
+        console.log(urls);
+
+        if(urls.length > 0){
+
+          urls.forEach((e,i,a) => {
+
+            noticiasGuidArray.splice(noticiasGuidArray.indexOf(e),1);
+
+          });
+
+          this.storageCtrl.setItem("noticiasNovasGUID",noticiasGuidArray).then(
+
+            (data) => {},
+            error => { console.log(error)}
+
+          );
+
+          this.storageCtrl.getItem("noticiasNovas").then(
+
+            (data) => { this.storageCtrl.setItem("noticiasNovas",data-1).then(
+
+              (data) => {},
+              error => { console.log(error);}
+
+            ); },
+            error => { console.log(error); }
+
+          );
+
+        }
+
+      },
+      error => {
+
+        console.log(error);
+
+      }
+
+    );
 
     this.browserTabCtrl.isAvailable().then(
 
