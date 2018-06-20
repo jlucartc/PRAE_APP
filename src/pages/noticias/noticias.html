@@ -26,7 +26,7 @@
           <ion-col>
             <ion-card>
               <ion-card-content>
-                <ion-card-title>{{ noticia.titulo }}<br><ion-badge item-end color="secondary">Nova notícia</ion-badge></ion-card-title>
+                <ion-card-title>{{ noticia.titulo }}<br><ion-badge *ngIf="noticia.isNova" item-end color="secondary">Nova notícia</ion-badge></ion-card-title>
               </ion-card-content>
             </ion-card>
           </ion-col>

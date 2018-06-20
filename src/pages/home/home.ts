@@ -24,6 +24,7 @@ import { ResidenciaUniversitariaPage } from '../residencia-universitaria/residen
 import { RestauranteUniversitarioPage } from '../restaurante-universitario/restaurante-universitario';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { ProvedorDeDadosProvider } from "../../providers/provedor-de-dados/provedor-de-dados";
 
 
 @Component({
@@ -34,7 +35,7 @@ export class HomePage {
 
   private noticiasNovas;
 
-  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private push : Push, private storageCtrl : NativeStorage) {
+  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private push : Push, private storageCtrl : NativeStorage, private provedorDeDados : ProvedorDeDadosProvider) {
 
     this._platform.ready().then(() => {
 
@@ -143,9 +144,14 @@ export class HomePage {
               //const pushObject: PushObject = this.push.init(options);
 
 
-              pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+              //pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
 
-              pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+              pushObject.on('registration').subscribe((registration: any) => { console.log('Device registered', registration);
+
+                this.provedorDeDados.atualizarReceiverId(registration.registrationId);
+                console.log(registration.registrationId);
+
+              });
 
               pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
 

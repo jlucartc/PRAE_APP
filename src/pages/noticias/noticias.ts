@@ -30,7 +30,7 @@ export class NoticiasPage {
 
   constructor( public provedorDeDados : ProvedorDeDadosProvider, public browserTabCtrl : BrowserTab ,public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private storageCtrl : NativeStorage) {
 
-    this.provedorDeDados.noticias().subscribe( (data) => { this.noticias = data.json(); console.log(this.noticias)}, (error) => { console.log("Erro(noticias.ts): "+error); }  );
+    this.provedorDeDados.noticias().subscribe( (data) => { this.noticias = this.processarNoticias(data.json()); console.log(this.noticias)}, (error) => { console.log("Erro(noticias.ts): "+error); }  );
 
   }
 
@@ -115,18 +115,60 @@ export class NoticiasPage {
 
   }
 
+  public processarNoticias(data){
+
+    for(let item of data){
+
+      console.log("processarDados");
+      if(this.checar(item.guid)){
+
+        item.isNova = true;
+
+      }else{
+
+        item.isNoca = false;
+
+      }
+
+      console.log("Item:"+item);
+
+    }
+
+    return data;
+
+  }
+
+  public checar(url : String) : boolean {
+
+    var guidArray : Array<any> = new Array(0);
+
+    this.storageCtrl.getItem("noticiasNovasGUID").then(
+
+      (data) => { guidArray = data; console.log("Data"); },
+      error => { console.log("Array"); }
+
+    );
+
+    if(guidArray.length > 0 && guidArray.find((e,i,a) => { return e == url })){
+
+      console.log("true");
+      return true;
+
+    }
+
+    console.log("false");
+    return false;
+
+
+  }
+
   ionViewDidLoad(){
     console.log('ionViewDidLoad NoticiasPage');
 
     let lc = this.loadingCtrl.create();
 
-    this.showNews(lc);
-
   }
 
-  public showNews(lc : Loading) :  void{
 
-
-  }
 
 }
