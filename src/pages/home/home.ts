@@ -39,6 +39,29 @@ export class HomePage {
 
     this._platform.ready().then(() => {
 
+          this.carregarNoticiasNovas();
+
+          this.storageCtrl.getItem("noticiasNovasGUID").then( (data) => {
+
+            console.log("GUIDS: ");
+            console.log(data);
+            //this.storageCtrl.remove("noticiasNovasGUID");
+
+          }, error => {
+
+            this.storageCtrl.setItem("noticiasNovasGUID",new Array(0)).then( (data) => {
+
+              console.log("GUIDS:");
+              console.log(data);
+
+            }, error => {
+
+              console.log(error);
+
+            });
+
+          });
+
           this.push.hasPermission().then((res: any) => {
 
             if (res.isEnabled) {
@@ -57,99 +80,23 @@ export class HomePage {
                 }
               };
 
-              this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => {
-
-                  this.noticiasNovas = data;
-
-              }, error => {
-
-                  this.storageCtrl.setItem("noticiasNovas",0).then(
-                    (data) => { console.log(this.noticiasNovas); this.noticiasNovas = 0;},
-                    error => { console.log(error); }
-                  );
-
-              } );
-
-
               alert("ok");
 
               const pushObject: PushObject = this.push.init(options);
 
               pushObject.on('notification').subscribe((notification: any) => {
 
-                  alert("notificação");
-
-                  this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => {
-
-                      this.noticiasNovas = data+1;
-                      this.storageCtrl.setItem("noticiasNovas",this.noticiasNovas).then(
-
-                        (data) => { }, error => { console.log(); }
-
-                      )
-
-                  }, error => {
-
-                      this.storageCtrl.setItem("noticiasNovas",1).then(
-                        (data) => { console.log(this.noticiasNovas) },
-                        error => { console.log(error); }
-                      );
-
-                  } );
-
-                  this.noticiasNovas = this.storageCtrl.getItem("noticiasNovasGUID").then( (data) => {
-
-                    var noticiasNovasGUID : Array<any> = data;
-
-                    noticiasNovasGUID.push(notification.additionalData.guid);
-
-                    this.storageCtrl.setItem("noticiasNovasGUID",data).then(
-
-                      (data) => {},
-                      error => { console.log(error) }
-
-                    );
-
-                  }, error => {
-
-                    this.storageCtrl.setItem("noticiasNovasGUID",Array(notification.additionalData.guid)).then(
-                      (data) => {},
-                      error => { console.log(error) }
-                    );
-
-                  } );
-
                   console.log(notification.additionalData.guid);
 
+                  this.tratarNotificacoes(notification);
+
               } );
-
-              //this.noticiasNovas = 1;
-              //console.log("noticiasNovas: "+this.noticiasNovas);
-
-
-              /*
-              const options: PushOptions = {
-                android: {},
-                ios: {
-                  alert: 'true',
-                  badge: true,
-                  sound: 'false'
-                },
-                windows: {},
-                browser: {
-                  pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-                }
-              };*/
-
-              //const pushObject: PushObject = this.push.init(options);
-
-
-              //pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
 
               pushObject.on('registration').subscribe((registration: any) => { console.log('Device registered', registration);
 
                 this.provedorDeDados.atualizarReceiverId(registration.registrationId);
                 console.log(registration.registrationId);
+                this.tratarRegistros(registration);
 
               });
 
@@ -161,6 +108,71 @@ export class HomePage {
 
     });
 
+  }
+
+  public tratarNotificacoes(notificacao){
+
+    this.noticiasNovas += 1;
+
+    this.storageCtrl.getItem("noticiasNovasGUID").then( (data) => {
+
+      (data as Array<any>).push(notificacao.additionalData.guid);
+
+      console.log("GUID ARRAY:",data);
+      console.log(notificacao.guid);
+
+      this.storageCtrl.setItem("noticiasNovasGUID",data).then((data) => {}, error => {
+
+        console.log(error);
+
+      });
+
+    }, error => {
+
+      console.log(error);
+
+    });
+
+  }
+
+  public tratarRegistros(registration){
+
+    console.log("Registration: ");
+    console.log(registration);
+
+  }
+
+  public carregarNoticiasNovas(){
+
+    this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => {
+
+        this.noticiasNovas = data;
+
+    }, error => {
+
+        this.storageCtrl.setItem("noticiasNovas",0).then(
+          (data) => { console.log(this.noticiasNovas); this.noticiasNovas = 0},
+          error => { console.log(error); }
+        );
+
+    } );
+
+  }
+
+  public salvarNoticiasNovas(){
+
+    this.storageCtrl.setItem("noticiasNovas",this.noticiasNovas).then( (data) => {}, error =>  {
+
+      console.log(error);
+
+    });
+
+  }
+
+  ionViewWillLeave(){
+
+    console.log("IonViewWillLeave");
+    this.salvarNoticiasNovas();
 
   }
 

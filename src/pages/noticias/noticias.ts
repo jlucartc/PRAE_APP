@@ -27,6 +27,7 @@ export class NoticiasPage {
 
   private feed = "/feed";
   private noticias ;
+  private guidArray : Array<any>;
 
   constructor( public provedorDeDados : ProvedorDeDadosProvider, public browserTabCtrl : BrowserTab ,public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private storageCtrl : NativeStorage) {
 
@@ -126,11 +127,11 @@ export class NoticiasPage {
 
       }else{
 
-        item.isNoca = false;
+        item.isNova = false;
 
       }
 
-      console.log("Item:"+item);
+      console.log(item);
 
     }
 
@@ -140,16 +141,16 @@ export class NoticiasPage {
 
   public checar(url : String) : boolean {
 
-    var guidArray : Array<any> = new Array(0);
-
     this.storageCtrl.getItem("noticiasNovasGUID").then(
 
-      (data) => { guidArray = data; console.log("Data"); },
+      (data) => { this.guidArray = (data as Array<any>) ; console.log("Data",this.guidArray); },
       error => { console.log("Array"); }
 
     );
 
-    if(guidArray.length > 0 && guidArray.find((e,i,a) => { return e == url })){
+    console.log("Comprimento: ",this.guidArray);
+
+    if(this.guidArray.length > 0 && this.guidArray.find((e,i,a) => { console.log("Elemento: ",e); console.log("Url: ",url) ;return e == url })){
 
       console.log("true");
       return true;

@@ -34,7 +34,7 @@ export class ProvedorDeDadosProvider {
   constructor(public http: HttpClient, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController) {
     console.log('Hello ProvedorDeDadosProvider Provider');
 
-    this.host = "http://192.169.2.108:8000/";
+    this.host = "http://192.168.2.108:8000/";
 
     this.noticiasUrl = this.host+"app/ws/noticias";
 
@@ -44,7 +44,7 @@ export class ProvedorDeDadosProvider {
 
     this.listaCoordenadoriasUrl = this.host+"app/ws/listaCoordenadorias";
 
-    this.receiverIdUrlAtualizar = this.host+"app/ws/atualizarReceiverId";
+    this.receiverIdUrlAtualizar = this.host+"app/ws/atualizarReceiverID";
 
   }
 
@@ -92,7 +92,8 @@ export class ProvedorDeDadosProvider {
 
   public atualizarReceiverId(id){
 
-    this.httpNg.post(this.receiverIdUrlAtualizar,{receiverID : id});
+    this.httpNg.post(this.receiverIdUrlAtualizar,{receiverID : id}).subscribe( res => { console.log(res); }  );
+
     console.log("receiverID enviado");
 
   }
