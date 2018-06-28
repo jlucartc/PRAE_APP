@@ -29,7 +29,8 @@ import { VerMapaPage } from "../pages/ver-mapa/ver-mapa";
 import { ProvedorDeDadosProvider } from '../providers/provedor-de-dados/provedor-de-dados';
 import { Push } from '@ionic-native/push';
 import { NativeStorage } from '@ionic-native/native-storage';
-import { FormsModule } from '@angular/forms';  
+import { FormsModule } from '@angular/forms';
+import { Badge } from '@ionic-native/badge';
 
 
 @NgModule({
@@ -89,7 +90,8 @@ import { FormsModule } from '@angular/forms';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HTTP,
     ProvedorDeDadosProvider,
-    NativeStorage
+    NativeStorage,
+    Badge
   ]
 })
 export class AppModule {}

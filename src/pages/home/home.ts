@@ -25,7 +25,7 @@ import { RestauranteUniversitarioPage } from '../restaurante-universitario/resta
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ProvedorDeDadosProvider } from "../../providers/provedor-de-dados/provedor-de-dados";
-
+import { Badge } from '@ionic-native/badge';
 
 @Component({
   selector: 'page-home',
@@ -35,7 +35,7 @@ export class HomePage {
 
   private noticiasNovas;
 
-  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private push : Push, private storageCtrl : NativeStorage, private provedorDeDados : ProvedorDeDadosProvider) {
+  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private push : Push, private storageCtrl : NativeStorage, private provedorDeDados : ProvedorDeDadosProvider, private badge : Badge) {
 
     this._platform.ready().then(() => {
 
@@ -86,9 +86,14 @@ export class HomePage {
 
               pushObject.on('notification').subscribe((notification: any) => {
 
-                  console.log(notification.additionalData.guid);
-
+                  console.log("1 - Noticia GUID: ",notification.additionalData.guid);
                   this.tratarNotificacoes(notification);
+
+                  this.badge.increase(1);
+                  this.carregarNoticiasNovas();
+                  this.tratarNotificacoes(notification);
+                  this.salvarNoticiasNovas();
+
 
               } );
 
@@ -107,6 +112,8 @@ export class HomePage {
           });
 
     });
+
+    console.log("NoticiasNovas: ",this.noticiasNovas);
 
   }
 
@@ -132,6 +139,8 @@ export class HomePage {
       console.log(error);
 
     });
+
+    this.salvarNoticiasNovas();
 
   }
 
@@ -161,13 +170,16 @@ export class HomePage {
 
   public salvarNoticiasNovas(){
 
-    this.storageCtrl.setItem("noticiasNovas",this.noticiasNovas).then( (data) => {}, error =>  {
+    this.storageCtrl.setItem("noticiasNovasGUID",new Array<any>());
+
+    this.storageCtrl.setItem("noticiasNovas",0).then( (data) => {}, error =>  {
 
       console.log(error);
 
     });
 
   }
+
 
   ionViewWillLeave(){
 
@@ -181,6 +193,7 @@ export class HomePage {
   }
 
   public ionViewDidLoad() : void {
+    this.carregarNoticiasNovas();
     console.log('ionViewDidLoad HomePage');
   }
 

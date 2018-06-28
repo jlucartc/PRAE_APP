@@ -31,7 +31,20 @@ export class NoticiasPage {
 
   constructor( public provedorDeDados : ProvedorDeDadosProvider, public browserTabCtrl : BrowserTab ,public navParams: NavParams, private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private storageCtrl : NativeStorage) {
 
-    this.provedorDeDados.noticias().subscribe( (data) => { this.noticias = this.processarNoticias(data.json()); console.log(this.noticias)}, (error) => { console.log("Erro(noticias.ts): "+error); }  );
+    _platform.ready().then(
+
+        (ready) => {
+            this.storageCtrl.getItem("noticiasNovasGUID").then(
+
+              (data) => { this.guidArray = data ; console.log("Data",this.guidArray); this.provedorDeDados.noticias().subscribe( (data) => { this.noticias = this.processarNoticias(data.json()); console.log(this.noticias)}, (error) => { console.log("Erro(noticias.ts): "+error); }  ); },
+              error => { console.log("Array"); this.guidArray = new Array<any>(0); this.provedorDeDados.noticias().subscribe( (data) => { this.noticias = this.processarNoticias(data.json()); console.log(this.noticias)}, (error) => { console.log("Erro(noticias.ts): "+error); }  ); }
+
+            );
+        },
+        
+        (error) => { console.log(error); }
+
+    );
 
   }
 
@@ -140,13 +153,6 @@ export class NoticiasPage {
   }
 
   public checar(url : String) : boolean {
-
-    this.storageCtrl.getItem("noticiasNovasGUID").then(
-
-      (data) => { this.guidArray = (data as Array<any>) ; console.log("Data",this.guidArray); },
-      error => { console.log("Array"); }
-
-    );
 
     console.log("Comprimento: ",this.guidArray);
 
