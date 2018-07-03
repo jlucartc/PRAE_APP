@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController, MenuController, Platform, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { Http, Response } from "@angular/http";
 import { HttpClient } from '@angular/common/http';
@@ -34,10 +34,14 @@ import { Badge } from '@ionic-native/badge';
 export class HomePage {
 
   private noticiasNovas;
+  private foreground : boolean;
 
-  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private push : Push, private storageCtrl : NativeStorage, private provedorDeDados : ProvedorDeDadosProvider, private badge : Badge) {
+  constructor(private navCtrl: NavController, private menuCtrl: MenuController, private httpNative : HTTP, private httpNg : Http, private req : HttpClient, private _platform : Platform, private alertCtrl : AlertController, private loadingCtrl : LoadingController, private push : Push, private storageCtrl : NativeStorage, private provedorDeDados : ProvedorDeDadosProvider, private badge : Badge, private zone : NgZone) {
 
     this._platform.ready().then(() => {
+
+          document.addEventListener('pause',this.onPause,false);
+          document.addEventListener('resume',this.onResume,false);
 
           this.carregarNoticiasNovas();
 
@@ -49,7 +53,7 @@ export class HomePage {
 
           }, error => {
 
-            this.storageCtrl.setItem("noticiasNovasGUID",new Array(0)).then( (data) => {
+            this.storageCtrl.setItem("noticiasNovasGUID",new Array<any>(0)).then( (data) => {
 
               console.log("GUIDS:");
               console.log(data);
@@ -86,14 +90,13 @@ export class HomePage {
 
               pushObject.on('notification').subscribe((notification: any) => {
 
-                  console.log("1 - Noticia GUID: ",notification.additionalData.guid);
+                  console.log("1 - Noticia GUID: ",notification);
                   this.tratarNotificacoes(notification);
-
-                  this.badge.increase(1);
-                  this.carregarNoticiasNovas();
-                  this.tratarNotificacoes(notification);
-                  this.salvarNoticiasNovas();
-
+                  //this.badge.clear();
+                  //this.carregarNoticiasNovas();
+                  //this.tratarNotificacoes(notification);
+                  //this.salvarNoticiasNovas();
+                  //window.location.reload(true);
 
               } );
 
@@ -119,28 +122,32 @@ export class HomePage {
 
   public tratarNotificacoes(notificacao){
 
-    this.noticiasNovas += 1;
+    this.zone.run( () => {
 
-    this.storageCtrl.getItem("noticiasNovasGUID").then( (data) => {
+      this.noticiasNovas += 1;
 
-      (data as Array<any>).push(notificacao.additionalData.guid);
+      this.storageCtrl.getItem("noticiasNovasGUID").then( (data) => {
 
-      console.log("GUID ARRAY:",data);
-      console.log(notificacao.guid);
+        (data as Array<any>).push(notificacao.additionalData.guid);
 
-      this.storageCtrl.setItem("noticiasNovasGUID",data).then((data) => {}, error => {
+        console.log("GUID ARRAY:",data);
+        console.log(notificacao.guid);
+
+        this.storageCtrl.setItem("noticiasNovasGUID",data).then((data) => {}, error => {
+
+          console.log(error);
+
+        });
+
+      }, error => {
 
         console.log(error);
 
       });
 
-    }, error => {
-
-      console.log(error);
+      this.salvarNoticiasNovas();
 
     });
-
-    this.salvarNoticiasNovas();
 
   }
 
@@ -153,26 +160,39 @@ export class HomePage {
 
   public carregarNoticiasNovas(){
 
-    this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => {
+    this.zone.run( () => {
 
-        this.noticiasNovas = data;
+      this.noticiasNovas = this.storageCtrl.getItem("noticiasNovas").then( (data) => {
 
-    }, error => {
+          if(data != null){
 
-        this.storageCtrl.setItem("noticiasNovas",0).then(
-          (data) => { console.log(this.noticiasNovas); this.noticiasNovas = 0},
-          error => { console.log(error); }
-        );
+              this.noticiasNovas = data;
 
-    } );
+          }else{
+
+              this.noticiasNovas = 0;
+
+          }
+          console.log("carregarNoticiasNovas: ",this.noticiasNovas);
+
+      }, error => {
+
+          this.noticiasNovas = 0;
+
+          this.storageCtrl.setItem("noticiasNovas",0).then(
+            (data) => {},
+            error => { console.log("carregarNoticiasNovas(Error): ",error); }
+          );
+
+      } );
+
+    });
 
   }
 
   public salvarNoticiasNovas(){
 
-    this.storageCtrl.setItem("noticiasNovasGUID",new Array<any>());
-
-    this.storageCtrl.setItem("noticiasNovas",0).then( (data) => {}, error =>  {
+    this.storageCtrl.setItem("noticiasNovas",this.noticiasNovas).then( (data) => {}, error =>  {
 
       console.log(error);
 
@@ -195,6 +215,18 @@ export class HomePage {
   public ionViewDidLoad() : void {
     this.carregarNoticiasNovas();
     console.log('ionViewDidLoad HomePage');
+  }
+
+  public onResume(){
+
+    this.foreground = true;
+
+  }
+
+  public onPause(){
+
+    this.foreground = false;
+
   }
 
   public inicio() : void{
